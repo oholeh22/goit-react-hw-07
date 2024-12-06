@@ -1,28 +1,26 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsSlice';
-import { nanoid } from 'nanoid';
+import { addContact } from '../../redux/contactsOps';;
 import css from './ContactForm.module.css';
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string()
-    .min(3, 'too short!')
-    .max(50, 'too long!')
-    .required('Required to fill in'),
+    .min(3, 'Too short!')
+    .max(50, 'Too long!')
+    .required('Required'),
   number: Yup.string()
     .matches(/^[0-9-]+$/, "The number must contain only numbers and dashes")
-    .min(7, 'too short number!')
-    .required('Required to fill in'),
+    .min(7, 'Too short number!')
+    .required('Required'),
 });
 
 const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
-    const newContact = { ...values, id: nanoid() };
-    dispatch(addContact(newContact)); 
-    resetForm();
+    dispatch(addContact(values)); 
+    resetForm(); 
   };
 
   return (
